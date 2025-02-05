@@ -15,12 +15,10 @@ import {
 const processPercentileData = (percentiles: number[]) => {
   const countMap: Record<number, number> = {};
 
-  // Count occurrences of each percentile
   percentiles.forEach((p) => {
     countMap[p] = (countMap[p] || 0) + 1;
   });
 
-  // Convert to sorted array of objects
   return Object.keys(countMap)
     .map((key) => ({
       percentile: Number(key),
@@ -29,7 +27,7 @@ const processPercentileData = (percentiles: number[]) => {
     .sort((a, b) => a.percentile - b.percentile);
 };
 
-//Function to calculate average percentile
+// Function to calculate average percentile
 const calculatePercentileAverage = (
   graphData: { percentile: number; students: number }[]
 ): number => {
@@ -39,7 +37,7 @@ const calculatePercentileAverage = (
     (sum, item) => sum + item.percentile * item.students,
     0
   );
-  return totalPercentile / graphData.length;
+  return parseFloat((totalPercentile / graphData.length).toFixed(2));
 };
 
 function ComparisonGraphComponent({
@@ -49,57 +47,75 @@ function ComparisonGraphComponent({
   percentileAchieved: number;
   percentiles: number[];
 }) {
-  //const data for graph
   const graphData = processPercentileData(percentiles);
   const percentileAverage = calculatePercentileAverage(graphData);
-  return (
-    <div>
-      <h1>Comparison Graph</h1>
 
-      <div>
-        <p>
-          You scored {percentileAchieved}% percentile which is
+  return (
+    <div className="w-full max-w-xl mx-auto border-2 p-4 rounded-lg shadow-md bg-white dark:bg-gray-900">
+      {/* Header */}
+      <div className="flex justify-between items-center mb-4">
+        <h1 className="font-bold text-lg text-gray-900 dark:text-gray-100">
+          Comparison Graph
+        </h1>
+        {/* Icon with Circular Background */}
+        <div className="w-12 h-12 flex items-center justify-center bg-gray-300 dark:bg-gray-700 text-white font-bold rounded-full">
+          <ChartSpline className="w-6 h-6 text-gray-900 dark:text-gray-200" />
+        </div>
+      </div>
+
+      {/* Info Text */}
+      <p className="text-sm text-gray-600 dark:text-gray-400 mb-4">
+        <span className="font-bold text-gray-900 dark:text-gray-100">
+          You scored
+          {percentileAchieved}% percentile,
+        </span>
+        which is
+        <span className="font-bold text-gray-900 dark:text-gray-100">
           {percentileAchieved > percentileAverage
             ? "greater"
             : percentileAchieved < percentileAverage
             ? "less"
             : "equal"}
-          to the average percentile of {percentileAverage}% of all the engineers
-          who took this assessment
-        </p>
-        <ChartSpline />
-      </div>
+        </span>
+        to the average percentile of
+        <span className="font-bold text-gray-900 dark:text-gray-100">
+          {percentileAverage}%
+        </span>
+        of all the engineers who took this assessment.
+      </p>
 
-      <div>
-        <ResponsiveContainer width="100%" height={400}>
+      {/* Graph Section */}
+      <div className="p-4 rounded-lg shadow-md bg-white dark:bg-gray-900">
+        <ResponsiveContainer width="100%" height={350}>
           <LineChart data={graphData}>
-            <CartesianGrid strokeDasharray="3 3" />
+            <CartesianGrid strokeDasharray="3 3" vertical={false} />{" "}
+            {/* Vertical grid lines removed */}
             <XAxis
               dataKey="percentile"
               label={{
                 value: "Percentile",
                 position: "insideBottom",
                 offset: -5,
+                fill: "#374151", // Dark gray for visibility
               }}
+              tick={{ fill: "#6B7280" }} // Light gray for readability
             />
-            <YAxis
-              label={{ value: "Students", angle: -90, position: "insideLeft" }}
-            />
+            {/* Tooltip for Hover */}
             <Tooltip
               formatter={(value, name, props) => [
                 `Students: ${value}`,
                 `Percentile: ${props.payload.percentile}`,
               ]}
             />
+            {/* Line Graph */}
             <Line
               type="monotone"
               dataKey="students"
-              stroke="#8884d8"
-              strokeWidth={2}
-              dot={{ r: 4 }}
+              stroke="#4F46E5"
+              strokeWidth={2.5}
+              dot={{ r: 5, fill: "#4F46E5" }} // Bigger dots
             />
-
-            {/* Highlight your percentile */}
+            {/* Permanent Label for Your Percentile */}
             <ReferenceDot
               x={percentileAchieved}
               y={
@@ -107,10 +123,21 @@ function ComparisonGraphComponent({
                   ?.students || 0
               }
               fill="red"
-              r={6}
+              r={8}
               stroke="black"
               strokeWidth={2}
-              label={{ value: "Your Percentile", position: "top", fill: "red" }}
+            />
+            <ReferenceDot
+              x={percentileAchieved}
+              y={0} // Position label above the graph
+              fill="transparent"
+              label={{
+                value: "Your Percentile",
+                position: "top",
+                fill: "red",
+                fontSize: 14,
+                fontWeight: "bold",
+              }}
             />
           </LineChart>
         </ResponsiveContainer>

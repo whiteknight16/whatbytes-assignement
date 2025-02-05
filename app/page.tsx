@@ -28,36 +28,55 @@ interface DummyData {
 
 function SkillTestPage() {
   const [data, setData] = React.useState<DummyData>(dummyData);
+
   return (
-    <div className="flex md:flex-row flex-col">
-      <div className="flex flex-col md:m-5 m-2">
-        <h4 className="font-semibold text-muted-foreground m-3">Skill Test</h4>
-        <DetailsComponent
-          imageLink={data.imageLink}
-          topicName={data.topicName}
-          questionCount={data.questionCount}
-          duration={data.duration}
-          submissionDate={data.submissionDate}
-        />
-        <QuickStatisticsComponent
-          rankAchieved={data.rankAchieved}
-          percentileAchieved={data.percentileAchieved}
-          correctAnswers={data.correctAnswers}
-          totalQuestions={data.totalQuestions}
-        />
-        <ComparisonGraphComponent
-          percentileAchieved={data.percentileAchieved}
-          percentiles={data.percentiles}
-        />
+    <div className="flex flex-col md:flex-row gap-4 p-4">
+      {/* Left Section: Details, Quick Stats, Comparison Graph */}
+      <div className="flex flex-col w-full md:w-2/3 gap-4">
+        <h4 className="font-semibold text-muted-foreground">Skill Test</h4>
+
+        <div className="bg-white dark:bg-gray-900 p-4 ">
+          <DetailsComponent
+            imageLink={data.imageLink}
+            topicName={data.topicName}
+            questionCount={data.questionCount}
+            duration={data.duration}
+            submissionDate={data.submissionDate}
+            setData={setData}
+          />
+        </div>
+
+        <div className="bg-white dark:bg-gray-900 p-4 ">
+          <QuickStatisticsComponent
+            rankAchieved={data.rankAchieved}
+            percentileAchieved={data.percentileAchieved}
+            correctAnswers={data.correctAnswers}
+            totalQuestions={data.totalQuestions}
+          />
+        </div>
+
+        <div className="bg-white dark:bg-gray-900 p-4 ">
+          <ComparisonGraphComponent
+            percentileAchieved={data.percentileAchieved}
+            percentiles={data.percentiles}
+          />
+        </div>
       </div>
-      <div className="flex flex-col">
-        <SyllabusWiseAnalysisComponent
-          syllabusWiseAnalysisData={data.syllabusWiseAnalysisData}
-        />
-        <QuestionAnalysisComponent
-          correctAnswers={data.correctAnswers}
-          totalQuestions={data.totalQuestions}
-        />
+
+      {/* Right Section: Syllabus & Question Analysis */}
+      <div className="flex flex-col w-full md:w-1/3 gap-4">
+        <div className="mb-4" /> {/* This replaces h4 spacing */}
+        <div className="bg-white dark:bg-gray-900 p-4">
+          <SyllabusWiseAnalysisComponent
+            syllabusWiseAnalysisData={data.syllabusWiseAnalysisData}
+          />
+        </div>
+        <div className="bg-white dark:bg-gray-900 p-4">
+          <QuestionAnalysisComponent
+            correctAnswers={data.correctAnswers}
+            totalQuestions={data.totalQuestions}
+          />
+        </div>
       </div>
     </div>
   );
