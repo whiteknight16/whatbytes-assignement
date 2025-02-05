@@ -15,7 +15,6 @@ import {
 // Function to process percentile data
 const processPercentileData = (percentiles: number[]) => {
   const countMap: Record<number, number> = {};
-
   percentiles.forEach((p) => {
     countMap[p] = (countMap[p] || 0) + 1;
   });
