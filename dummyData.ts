@@ -4,9 +4,9 @@ const dummyData = {
   topicName: "Hyper Text Markup Language",
   questionCount: 8,
   duration: 15,
-  submissionDate: "12/12/2021",
+  submissionDate: "4 Feb 2025",
   rankAchieved: 1,
-  percentileAchieved: 30,
+  percentileAchieved: 10,
   correctAnswers: 10,
   totalQuestions: 15,
   percentiles: [
@@ -17,6 +17,10 @@ const dummyData = {
     { name: "Tags and References in HTML", completionPercentage: 60 },
     { name: "Tables and Refereces in HTML", completionPercentage: 24 },
     { name: "Tables and CSS basics", completionPercentage: 40 },
+    { name: "Tables and CSS basics", completionPercentage: 80 },
+    { name: "Tables and CSS basics", completionPercentage: 9 },
+    { name: "Tables and CSS basics", completionPercentage: 9 },
+    { name: "Tables and CSS basics", completionPercentage: 9 },
   ],
 };
 export default dummyData;

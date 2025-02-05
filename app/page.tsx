@@ -1,4 +1,5 @@
 "use client";
+// This is the entry file for the Skill Test page. It imports and renders the components
 import React from "react";
 import DetailsComponent from "@/components/SkillPageComponents/DetailsComponent";
 import QuickStatisticsComponent from "@/components/SkillPageComponents/QuickStatisticsComponent";
@@ -30,9 +31,9 @@ function SkillTestPage() {
   const [data, setData] = React.useState<DummyData>(dummyData);
 
   return (
-    <div className="flex flex-col md:flex-row gap-4 p-4">
+    <div className="flex flex-col lg:flex-row gap-4 p-4">
       {/* Left Section: Details, Quick Stats, Comparison Graph */}
-      <div className="flex flex-col w-full md:w-2/3 gap-4">
+      <div className="flex flex-col w-full lg:w-2/3 gap-4">
         <h4 className="font-semibold text-muted-foreground">Skill Test</h4>
 
         <div className="bg-white dark:bg-gray-900 p-4 ">
@@ -43,6 +44,7 @@ function SkillTestPage() {
             duration={data.duration}
             submissionDate={data.submissionDate}
             setData={setData}
+            totalQuestions={data.totalQuestions}
           />
         </div>
 
@@ -64,8 +66,8 @@ function SkillTestPage() {
       </div>
 
       {/* Right Section: Syllabus & Question Analysis */}
-      <div className="flex flex-col w-full md:w-1/3 gap-4">
-        <div className="mb-4" /> {/* This replaces h4 spacing */}
+      <div className="flex flex-col w-full lg:w-1/3 gap-4">
+        <div className="mb-4" />
         <div className="bg-white dark:bg-gray-900 p-4">
           <SyllabusWiseAnalysisComponent
             syllabusWiseAnalysisData={data.syllabusWiseAnalysisData}

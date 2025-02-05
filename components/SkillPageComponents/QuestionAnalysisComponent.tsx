@@ -9,37 +9,42 @@ function QuestionAnalysisComponent({
   correctAnswers: number;
   totalQuestions: number;
 }) {
-  const percentage = (correctAnswers / totalQuestions) * 100;
-
+  const percentage = correctAnswers / totalQuestions;
   const chartData = [
     { name: "Correct Answers", value: percentage },
-    { name: "Wrong Answers", value: 100 - percentage },
+    {
+      name: "Wrong Answers",
+      value: percentage === 1 || percentage === 0 ? 0 : 1 - percentage,
+    },
   ];
 
   const COLORS = ["#1E3A8A", "#BFDBFE"]; // Dark Blue (Correct) & Light Blue (Wrong)
 
   return (
-    <div className="bg-white dark:bg-gray-900 p-4 rounded-lg shadow-md w-full max-w-md">
+    <div className="bg-white dark:bg-gray-900 px-6 py-5 rounded-lg shadow-md w-full max-w-lg">
       {/* Header with Score */}
-      <div className="flex justify-between items-center mb-2">
-        <h1 className="text-lg font-bold text-gray-900 dark:text-gray-100">
+      <div className="flex justify-between items-center mb-4">
+        <h1 className="text-xl font-bold text-gray-900 dark:text-gray-100">
           Question Analysis
         </h1>
-        <p className="text-lg font-semibold text-gray-700 dark:text-gray-300">
+        <p className="text-lg font-semibold dark:text-blue-600 text-blue-700">
           {correctAnswers}/{totalQuestions}
         </p>
       </div>
 
       {/* Score Info */}
-      <p className="text-sm text-gray-700 dark:text-gray-300 mb-4">
+      <p className="text-sm text-gray-700 dark:text-gray-300 mb-5">
         <span className="font-semibold text-gray-900 dark:text-gray-100">
-          You scored {correctAnswers} correct out of {totalQuestions}.
+          You got {correctAnswers} correct out of {totalQuestions}.
         </span>{" "}
-        However, there is still room for improvement.
+        {correctAnswers === totalQuestions &&
+          "Keep pushing forward for even better results!"}
+        {correctAnswers !== totalQuestions &&
+          "However it still needs some improvements"}
       </p>
 
       {/* Doughnut Chart */}
-      <div className="relative w-40 h-40 mx-auto">
+      <div className="relative w-52 h-52 mx-auto">
         <ResponsiveContainer width="100%" height="100%">
           <PieChart>
             <Pie
@@ -47,20 +52,26 @@ function QuestionAnalysisComponent({
               dataKey="value"
               cx="50%"
               cy="50%"
-              innerRadius="70%" // Doughnut Effect
-              outerRadius="100%"
+              innerRadius="65%" // Better spacing
+              outerRadius="95%" // More visually appealing
               paddingAngle={3}
             >
-              {chartData.map((entry, index) => (
-                <Cell key={`cell-${index}`} fill={COLORS[index]} />
-              ))}
+              {chartData.map(
+                (entry, index) =>
+                  entry.value !== 0 && (
+                    <Cell
+                      key={`cell-${index}`}
+                      fill={COLORS[index % COLORS.length]}
+                    />
+                  )
+              )}
             </Pie>
           </PieChart>
         </ResponsiveContainer>
 
         {/* Centered Icon */}
         <div className="absolute inset-0 flex items-center justify-center">
-          <Target size={32} className="text-blue-900 dark:text-blue-300" />
+          <Target size={40} className="text-blue-900 dark:text-blue-300" />
         </div>
       </div>
     </div>

@@ -1,8 +1,10 @@
 "use client";
+// This displays the basic details
 import React, { useState } from "react";
 import Image from "next/image";
 import { Button } from "@/components/ui/button";
-import Modal from "@/components/SkillPageComponents/Modal"; // Ensure correct import
+import Modal from "@/components/SkillPageComponents/Modal";
+
 interface SyllabusWiseAnalysisItem {
   name: string;
   completionPercentage: number;
@@ -28,6 +30,7 @@ function DetailsComponent({
   duration,
   submissionDate,
   setData,
+  totalQuestions,
 }: {
   imageLink: string;
   topicName: string;
@@ -35,9 +38,11 @@ function DetailsComponent({
   duration: number;
   submissionDate: string;
   setData: React.Dispatch<React.SetStateAction<DummyData>>;
+  totalQuestions: number;
 }) {
   const [modalOpen, setModalOpen] = useState<boolean>(false);
 
+  // Stats to be displayed
   const stats = [
     {
       name: "Questions",
@@ -57,24 +62,25 @@ function DetailsComponent({
   ];
 
   return (
-    <div className="border-2 p-4 rounded-lg shadow-md bg-white dark:bg-gray-900 flex flex-wrap md:flex-nowrap items-center justify-between gap-4 w-full max-w-xl mx-auto">
+    <div className="border-2 p-4 rounded-lg shadow-md bg-white dark:bg-gray-900 flex flex-wrap xl:flex-nowrap items-center justify-between gap-6 w-full max-w-5xl mx-auto">
       {/* Left Section: Image */}
       <div className="flex-shrink-0">
         <Image
           src={imageLink}
           alt="topic"
-          width={80}
-          height={80}
+          width={90}
+          height={90}
           className="rounded-lg shadow-md"
         />
       </div>
 
       {/* Middle Section: Text */}
-      <div className="flex flex-col gap-1 text-center md:text-left w-full ">
+      <div className="flex flex-col gap-1 text-center xl:text-left w-full">
         <h1 className="font-bold text-lg text-gray-900 dark:text-gray-100">
           {topicName}
         </h1>
-        <p className="text-sm text-gray-600 dark:text-gray-400 flex flex-wrap gap-2">
+        <p className="text-sm text-gray-600 dark:text-gray-400 flex flex-wrap gap-4 xl:gap-6">
+          {/* Mapping over stats to display them */}
           {stats.map((stat, index) => (
             <span key={index} className="flex items-center">
               <span className="font-semibold text-gray-900 dark:text-gray-100">
@@ -84,7 +90,7 @@ function DetailsComponent({
 
               {/* Add '|' separator except for last item */}
               {index !== stats.length - 1 && (
-                <span className="mx-2 text-gray-400 dark:text-gray-600">|</span>
+                <span className="mx-3 text-gray-400 dark:text-gray-600">|</span>
               )}
             </span>
           ))}
@@ -93,18 +99,20 @@ function DetailsComponent({
 
       {/* Right Section: Button */}
       <Button
-        className="bg-violet-900 hover:bg-violet-700 text-white px-4 py-2 rounded-lg transition-all duration-300 active:scale-95"
+        className="bg-violet-900 hover:bg-violet-700 text-white px-5 py-2 rounded-lg transition-all duration-300 active:scale-95"
+        // Toggles the modal open
         onClick={() => setModalOpen(true)}
       >
         Update
       </Button>
 
-      {/* Modal */}
+      {/* Modal Section */}
       {modalOpen && (
         <Modal
           setModalOpen={setModalOpen}
           setData={setData}
           imageLink={imageLink}
+          totalQuestions={totalQuestions}
         />
       )}
     </div>
