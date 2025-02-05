@@ -11,12 +11,16 @@ NextJs,TailwindCSS,shadcn/ui,lucide-react,TS
 
 ## Various Folders
 
-app:This contains the main code and routing
-components:This one have various components being used
-lib: Simple folder with a utils file
-node_modules:All node modules are in this
-public: Images and other public stuff provided deafult by NEXTJS no modifications done in this
-readme-images:Contains images used in the readme file
+<li>app:This contains the main code and routing </li>
+<li>components:This one have various components being used</li>
+<li>lib: Simple folder with a utils file</li>
+<li>node_modules:All node modules are in this</li>
+<li>public: Images and other public stuff provided deafult by NEXTJS no modifications done in this</li>
+<li>readme-images:Contains images used in the readme file</li>
+
+## Video Link
+
+<a href="https://youtu.be/W6vGXnS9S1g">Youtube Video Link</a>
 
 ## Some Working Screenshots
 
